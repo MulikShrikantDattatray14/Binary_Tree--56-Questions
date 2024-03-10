@@ -1,0 +1,96 @@
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+function markParents(root, parentTrack) {
+    //to do bfs (level order)traversal , we need queue
+    const queue = [];
+    queue.push(root);
+    while (queue.length > 0) {
+        const current = queue.shift();
+        if (current.left !== null) {
+            parentTrack.set(current.left, current);
+            queue.push(current.left);
+        }
+        if (current.right !== null) {
+            parentTrack.set(current.right, current);
+            queue.push(current.right);
+        }
+    }
+}
+
+function distanceK(root, target, k) {
+    // bcz we cannot travel towards our parent, hence maintain a parent map
+    const parentTrack = new Map();
+    markParents(root, parentTrack);
+
+    const visited = new Map();
+    const queue = [];
+    queue.push(target);
+    visited.set(target, true);
+    let currLevel = 0;
+
+    while (queue.length > 0) {
+        const size = queue.length;
+        if (currLevel === k) break;
+        currLevel++;
+
+        for (let i = 0; i < size; i++) {
+            const current = queue.shift();
+            if (
+                current != null &&
+                current.left !== null &&
+                !visited.get(current.left)
+            ) {
+                queue.push(current.left);
+                visited.set(current.left, true);
+            }
+            if (
+                current != null &&
+                current.right !== null &&
+                !visited.get(current.right)
+            ) {
+                queue.push(current.right);
+                visited.set(current.right, true);
+            }
+            //if parents exists
+            let parent = parentTrack.get(current);
+            if (parent !== undefined && !visited.get(parent)) {
+                queue.push(parent);
+                visited.set(parent, true);
+            }
+        }
+    }
+    //those pending in queue
+    const result = [];
+    while (queue.length > 0) {
+        const currentNode = queue.shift();
+        if (currentNode != null) result.push(currentNode.val);
+    }
+    return result;
+}
+
+// Example usage 1:
+const root1 = new TreeNode(3);
+root1.left = new TreeNode(5);
+root1.right = new TreeNode(1);
+root1.left.left = new TreeNode(6);
+root1.left.right = new TreeNode(2);
+root1.right.left = new TreeNode(0);
+root1.right.right = new TreeNode(8);
+root1.left.right.left = new TreeNode(7);
+root1.left.right.right = new TreeNode(4);
+const targetNode1 = root1.left;
+const distance1 = 2;
+const result1 = distanceK(root1, targetNode1, distance1);
+console.log(result1); // Output: [7, 4, 1]
+
+// // Example usage 2:
+// const root2 = new TreeNode(1);
+// const targetNode2 = root2;
+// const distance2 = 3;
+// const result2 = distanceK(root2, targetNode2, distance2);
+// console.log(result2); // Output: []

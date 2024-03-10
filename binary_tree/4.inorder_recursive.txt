@@ -1,0 +1,14 @@
+//LDR
+var target = []
+    
+function dfs(node){
+    if (node==null){
+        return;
+    }
+
+    dfs(node.left)
+    target.push(node.val)
+    dfs(node.right)
+}
+dfs(root)
+return target

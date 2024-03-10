@@ -1,0 +1,24 @@
+//Given preorder traversal of a binary tree, check if it is possible that it is also a preorder traversal of a Binary Search Tree(BST), where each internal node(non - leaf nodes) have exactly one child.
+
+module.exports = {
+    //param A : array of integers
+    //return a strings
+    solve: function (pre) {
+        // see the explained video
+        let l = Number.MIN_SAFE_INTEGER;// stores the smaller side of the range.
+        let r = Number.MAX_SAFE_INTEGER;// stores the greater side of the range.
+        let root = pre[0];
+        for (let i = 1; i < pre.length; i++) {
+            if (pre[i] > root) {
+                l = root;
+            } else {
+                r = root;
+            }
+            if (pre[i] < l || pre[i] > r) {
+                return "NO";
+            }
+            root = pre[i];
+        }
+        return "YES";
+    },
+};

@@ -1,0 +1,26 @@
+// Definition for a  binary tree node
+//			function TreeNode(data){
+//				this.data = data
+//				this.left = null
+//				this.right = null
+//			}
+
+module.exports = {
+    //param A : root node of tree
+    //return nothing
+    connect: function (A) {
+        //note : see this youtube channel : https://www.youtube.com/watch?v=uI5CB32O_uo
+        let current = A;
+        while (current.left !== null) {// move downwards
+            let temp = current;
+            while (temp !== null) {// move rightside 
+                temp.left.next = temp.right;
+                temp.right.next = (temp.next === null) ? null : temp.next.left;
+                temp = temp.next;
+            }
+            current = current.left;
+        }
+
+    }
+};
+

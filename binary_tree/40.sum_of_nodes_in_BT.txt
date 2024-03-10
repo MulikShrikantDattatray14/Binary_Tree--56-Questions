@@ -1,0 +1,27 @@
+// Definition for a  binary tree node
+//    function TreeNode(data){
+//      this.data = data
+//      this.left = null
+//      this.right = null
+//    }
+
+
+let ans = 0;
+function sum(A) {
+    if (A == null) {
+        return 0;
+    }
+    ans += A.data
+    sum(A.left);
+    sum(A.right);
+}
+
+module.exports = {
+    //param A : root node of tree
+    //return an integer
+    solve: function (A) {
+        ans = 0
+        sum(A)
+        return ans;
+    }
+};

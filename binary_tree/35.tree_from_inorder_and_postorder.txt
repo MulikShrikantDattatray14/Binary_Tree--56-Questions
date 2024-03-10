@@ -1,0 +1,54 @@
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+function buildTree(inorder, postorder) {
+    if (!inorder || !postorder || inorder.length !== postorder.length)
+        return null;
+    const hm = new Map();
+    for (let i = 0; i < inorder.length; ++i) hm.set(inorder[i], i);
+    return buildTreePostIn(
+        inorder,
+        0,
+        inorder.length - 1,
+        postorder,
+        0,
+        postorder.length - 1,
+        hm
+    );
+}
+
+function buildTreePostIn(inorder, is, ie, postorder, ps, pe, hm) {
+    if (ps > pe || is > ie) return null;
+    const root = new TreeNode(postorder[pe]);
+    const ri = hm.get(root.val);
+    const leftChild = buildTreePostIn(
+        inorder,
+        is,
+        ri - 1,
+        postorder,
+        ps,
+        ps + ri - is - 1,
+        hm
+    );
+    const rightChild = buildTreePostIn(
+        inorder,
+        ri + 1,
+        ie,
+        postorder,
+        ps + ri - is,
+        pe - 1,
+        hm
+    );
+    root.left = leftChild;
+    root.right = rightChild;
+    return root;
+}
+
+const inorder = [9, 3, 15, 20, 7];
+const postorder = [9, 15, 7, 20, 3];
+const resultTree = buildTree(inorder, postorder);
+console.log(resultTree);

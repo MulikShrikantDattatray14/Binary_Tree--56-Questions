@@ -1,0 +1,53 @@
+//see striver explaiantion
+//recursive way _ find height/Depth
+//logic:- count nodes from top to bottom.
+
+
+function maxDepth(root) {
+  if (root === null) {
+    return 0;
+  }
+
+  const lh = maxDepth(root.left);
+  const rh = maxDepth(root.right);
+
+  return 1 + Math.max(lh, rh);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// use of level order traversal to calculate the height/Depth of tree
+function treeHeight(root) {
+  if (!root) {
+    return 0;
+  }
+
+  const queue = [root]; // FIFO
+  let height = 0;
+
+  while (queue.length > 0) {
+    const levelSize = queue.length;
+
+    for (let i = 0; i < levelSize; i++) {
+      const currentNode = queue.shift();
+
+      if (currentNode.left != null) {
+        queue.push(currentNode.left);
+      }
+
+      if (currentNode.right != null) {
+        queue.push(currentNode.right);
+      }
+    }
+
+    height++;
+  }
+
+  return height;
+}
+
+// Example usage:
+//const root = /* your root node */;
+const height = treeHeight(root);
+console.log("Tree Height:", height);

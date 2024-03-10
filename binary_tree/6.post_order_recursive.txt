@@ -1,0 +1,17 @@
+var postorderTraversal = function(root) {
+    //LRD
+var target = []
+    
+function dfs(node){
+    if (!node){
+        return;
+    }
+
+    dfs(node.left)
+  
+    dfs(node.right)
+      target.push(node.val)
+}
+dfs(root)
+return target
+};

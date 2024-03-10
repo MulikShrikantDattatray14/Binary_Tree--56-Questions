@@ -1,0 +1,68 @@
+class TreeNode {
+    constructor(data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class Tuple {
+    constructor(node, row, col) {
+        this.node = node;
+        this.row = row;//level
+        this.col = col;//coordinate
+    }
+}
+
+function findVertical(root) {
+    const map = new Map();
+    const queue = [];
+    queue.push(new Tuple(root, 0, 0));
+
+    while (queue.length > 0) {
+        const tuple = queue.shift();
+        const node = tuple.node;
+        const level = tuple.row;
+        const coordinate = tuple.col;
+
+        if (map.has(coordinate) == false) {
+            map.set(coordinate, []);
+        }
+        map.get(coordinate).push({ data: node.data, row: level });
+
+        if (node.left !== null) {
+            queue.push(new Tuple(node.left, level + 1, coordinate - 1));
+        }
+        if (node.right !== null) {
+            queue.push(new Tuple(node.right, level + 1, coordinate + 1));
+        }
+    }
+
+    const mapEntries = Array.from(map.entries());
+    // sort the columns- in the order -2,-1,0,1,2
+    const sortedEntries = mapEntries.sort((a, b) => a[0] - b[0]);
+    const sortedMap = new Map(sortedEntries);
+    // sort rows and then data if required
+
+    const list = [];
+    for (const col of sortedMap.values()) {
+        col.sort((a, b) => a.row - b.row || a.data - b.data);
+        list.push(col.map((item) => item.data));
+    }
+    return list;
+}
+
+const root3 = new TreeNode(1);
+root3.left = new TreeNode(2);
+root3.right = new TreeNode(3);
+root3.left.left = new TreeNode(4);
+root3.left.right = new TreeNode(6);
+root3.right.left = new TreeNode(5);
+root3.right.right = new TreeNode(7);
+
+const result3 = findVertical(root3);
+
+console.log("Example 3 - The Vertical Traversal is : ");
+for (const sublist of result3) {
+    console.log(sublist.join(" "));
+}

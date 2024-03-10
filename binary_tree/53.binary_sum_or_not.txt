@@ -1,0 +1,66 @@
+// Given a binary tree.Check whether the given tree is a Sum - binary Tree or not.
+
+//     Sum - binary Tree is a Binary Tree where the value of a every node is equal to sum of the nodes present in its left subtree and right subtree.
+
+// An empty tree is Sum - binary Tree and sum of an empty tree can be considered as 0. A leaf node is also considered as SumTree.
+
+//     Return 1 if it sum - binary tree else return 0.
+
+//////////////////////////////////////////////////////////////////////////////
+// Definition for a  binary tree node
+//    function TreeNode(data){
+//      this.data = data
+//      this.left = null
+//      this.right = null
+//    }
+
+module.exports = {
+    //param A : root node of tree
+    //return an integer
+    solve: function (A) {
+        function sum(node) {
+            if (node == null) {
+                return 0;
+            }
+            return sum(node.left) + node.data + sum(node.right);
+        }
+        function ifParentContainSumofChildren(node) {
+            if (node == null || (node.left == null && node.right == null)) {
+                return true;
+            }
+            let a = node.left != null ? sum(node.left) : 0;
+            let b = node.right != null ? sum(node.right) : 0;
+            return (
+                (a + b === node.data) &&
+                ifParentContainSumofChildren(node.left) &&
+                ifParentContainSumofChildren(node.right)
+            );
+        }
+        function solve(node) {
+            if (ifParentContainSumofChildren(node)) return 1;
+            else return 0
+        }
+        return solve(A)
+    }
+};
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// logic -2 : 
+let f = 1;
+function sum(A) {
+    if (A == null) return 0;
+    if (A.left == null && A.right == null) return A.data; // leaf node
+    if (f == 0) return 0;
+    let a = sum(A.left);
+    let b = sum(A.right);
+
+    if (a + b !== A.data) f = 0;
+    return a + b + A.data;
+}
+
+function solve(A) {
+    f = 1;
+    sum(A);
+    return f;
+}

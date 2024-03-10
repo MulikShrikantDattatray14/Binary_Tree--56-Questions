@@ -1,0 +1,30 @@
+
+// Approach: In preorder traversal, the tree is traversed in this way: root, left, right.
+
+// The algorithm approach can be stated as:
+
+// We first visit the root node and before visiting its children we print its value.
+// After this, we recursively visit its left child.
+// Then we recursively visit the right child.
+// If we encounter a node pointing to NULL, we simply return to its parent.
+
+var target = []
+
+function dfs(node) {
+    if (node == null) {
+        return;
+    }
+    target.push(node.val)
+    dfs(node.left)
+    dfs(node.right)
+}
+dfs(root)
+return target
+
+// Time Complexity: O(N).
+
+// Reason: We are traversing N nodes and every node is visited exactly once.
+
+// Space Complexity: O(N)
+
+// Reason: Space is needed for the recursion stack. In the worst case (skewed tree), space complexity can be O(N).

@@ -1,0 +1,43 @@
+
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function createTree(arr) {
+    //FIFO
+    const q = [];
+    // Create the root node with the value from the first element of the array
+    const root = new Node(arr[0]);
+
+    q.push(root);
+
+    let i = 0;
+
+    // Construct the binary tree using the remaining elements of the array
+    while (q.length > 0 && i < 3) {
+        // removes the first item of an array.
+        const t = q.shift();
+
+        // Create the left child node with the value from the corresponding index in the array
+        const left = new Node(arr[2 * i + 1]);
+        t.left = left;
+        q.push(left);
+
+        // Create the right child node with the value from the corresponding index in the array
+        const right = new Node(arr[2 * i + 2]);
+        t.right = right;
+        q.push(right);
+
+        i++;
+    }
+    return root;
+}
+
+// Example usage:
+const arr = [1, 2, 3, 4, 5, 6];
+const tree = createTree(arr);
+console.log(tree);

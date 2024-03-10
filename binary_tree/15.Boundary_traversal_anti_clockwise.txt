@@ -1,0 +1,97 @@
+
+// Problem Statement: BoundaryTraversal of a binary tree. Write a program for the Anti-Clockwise Boundary traversal of a binary tree.
+//try for clockwise also
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function isLeaf(root) {
+    return root.left === null && root.right === null;
+}
+// take left boundary excluding the leaf nodes
+function addLeftBoundary(root, res) {
+    let cur = root.left;
+    while (cur !== null) {
+        // insert into the answer
+        if (isLeaf(cur) == false) {
+            res.push(cur.data);
+        }
+        // move left or right
+        if (cur.left !== null) {
+            cur = cur.left;
+        } else {
+            cur = cur.right;
+        }
+    }
+}
+
+// right boundary in the reverse direction excluding the leaf nodes
+function addRightBoundary(root, res) {
+    let cur = root.right;
+    let tmp = [];
+    while (cur !== null) {
+        // insert into the answer
+        if (!isLeaf(cur)) {
+            tmp.push(cur.data);
+        }
+        // move rightwards, else leftwards
+        if (cur.right !== null) {
+            cur = cur.right;
+        } else {
+            cur = cur.left;
+        }
+    }
+
+    //reverse
+    for (let i = tmp.length - 1; i >= 0; --i) {
+        res.push(tmp[i]);
+    }
+}
+// only the leaf nodes- inorder traversal and not level order traversal
+function addLeaves(root, res) {
+    if (isLeaf(root) == true) {
+        res.push(root.data);
+        return;
+    }
+    if (root.left !== null) {
+        addLeaves(root.left, res);
+    }
+    if (root.right !== null) {
+        addLeaves(root.right, res);
+    }
+}
+
+function printBoundary(node) {
+    const ans = [];
+    //insert the very first node.
+    if (isLeaf(node) == false) {
+        ans.push(node.data);
+    }
+    addLeftBoundary(node, ans);
+    addLeaves(node, ans);
+    addRightBoundary(node, ans);
+    return ans;
+}
+
+const root = new Node(1);
+root.left = new Node(2);
+root.left.left = new Node(3);
+root.left.left.right = new Node(4);
+root.left.left.right.left = new Node(5);
+root.left.left.right.right = new Node(6);
+root.right = new Node(7);
+root.right.right = new Node(8);
+root.right.right.left = new Node(9);
+root.right.right.left.left = new Node(10);
+root.right.right.left.right = new Node(11);
+
+const boundaryTraversal = printBoundary(root);
+
+console.log("The Boundary Traversal is: ");
+for (let i = 0; i < boundaryTraversal.length; i++) {
+    console.log(boundaryTraversal[i] + " ");
+}

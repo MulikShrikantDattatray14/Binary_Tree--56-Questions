@@ -1,0 +1,48 @@
+//Given a binary search tree.
+//Return the distance between two nodes with given two keys B and C. It may be assumed that both keys exist in BST.
+
+//NOTE: Distance between two nodes is number of edges between them.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Definition for a  binary tree node
+//    function TreeNode(data){
+//      this.data = data
+//      this.left = null
+//      this.right = null
+//    }
+
+function lca(A, B, C) {
+    if (A.data > B && A.data > C)
+        return lca(A.left, B, C);
+
+    if (A.data < B && A.data < C)
+        return lca(A.right, B, C);
+
+    return A;
+}
+//distance of node from LCA
+
+function getDistance(src, dest) {
+    let distance = 0;
+    while (src.data !== dest) {
+        let node = src.left;
+        if (src.data < dest) {
+            node = src.right;
+        }
+        src = node;// move ahead
+        distance++;
+    }
+    return distance;
+}
+module.exports = {
+    //param A : root node of tree
+    //param B : integer
+    //param C : integer
+    //return an integer
+    solve: function (A, B, C) {
+        let n = lca(A, B, C);
+        let distA = getDistance(n, B);
+        let distB = getDistance(n, C);
+        return distA + distB;
+    }
+};

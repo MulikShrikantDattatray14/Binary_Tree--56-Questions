@@ -1,0 +1,62 @@
+//Intuition:  We can mark straight lines like in the image below and mark them with +ve and -ve indexes. The Last node of every line will be my Bottom view.
+
+
+class Node {
+    constructor(data, left, right) {
+        this.data = data;
+        this.left = left || null;
+        this.right = right || null;
+    }
+}
+
+class Pair {
+    constructor(node, col) {
+        this.node = node;
+        this.col = col;
+    }
+}
+
+function bottomView(root) {
+    const ans = [];
+    if (!root) return ans;
+
+    const map = new Map();
+    const q = [];
+
+    q.push(new Pair(root, 0));
+
+    while (q.length !== 0) {
+        const it = q.shift();
+        const col = it.col;
+        const temp = it.node;
+
+        // Update the map with the last occurring values at each column
+        map.set(col, temp.data);
+
+        if (temp.left != null) {
+            q.push(new Pair(temp.left, col - 1));
+        }
+
+        if (temp.right != null) {
+            q.push(new Pair(temp.right, col + 1));
+        }
+    }
+
+    for (const [key, value] of Array.from(map).sort((a, b) => a[0] - b[0])) {
+        ans.push(value);
+    }
+
+    return ans;
+}
+
+// Example usage:
+// Construct a binary tree
+const root = new Node(1);
+root.left = new Node(2);
+root.right = new Node(3);
+root.left.left = new Node(4);
+root.left.right = new Node(5);
+root.right.left = new Node(6);
+root.right.right = new Node(7)
+const result = bottomView(root);
+console.log(result);

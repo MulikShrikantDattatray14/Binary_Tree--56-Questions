@@ -1,0 +1,27 @@
+//Check whether the given Binary Tree is a Balanced Binary Tree or not. A binary tree is balanced if, for all nodes in the tree, the difference between left and right subtree height is not more than 1.
+
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+function isBalanced(root) {
+    return dfsHeight(root) !== -1;
+}
+
+function dfsHeight(root) {
+    if (root === null) return 0;
+
+    const leftHeight = dfsHeight(root.left);
+    //left skewed
+    if (leftHeight === -1) return -1;
+
+    const rightHeight = dfsHeight(root.right);
+    //right skewed
+    if (rightHeight === -1) return -1;
+
+    if (Math.abs(leftHeight - rightHeight) > 1) return -1;
+    return Math.max(leftHeight, rightHeight) + 1;
+}

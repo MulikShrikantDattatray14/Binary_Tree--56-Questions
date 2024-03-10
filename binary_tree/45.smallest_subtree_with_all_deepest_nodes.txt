@@ -1,0 +1,46 @@
+// Given a binary tree with root node pointer A . The depth of each node is the shortest distance to the root. A node is deepest if it has the largest depth possible among any node in the entire tree.
+// The subtree of a node is that node, plus the set of all descendants of that node.
+
+// Return the node with the largest depth such that it contains all the deepest nodes of the entire tree lies in its subtree.
+
+// Definition for a  binary tree node
+//    function TreeNode(data){
+//      this.data = data
+//      this.left = null
+//      this.right = null
+//    }
+
+
+function solve(A) {
+    if (A == null) {
+        return null;
+    }
+    let left = depth(A.left);
+    let right = depth(A.right);
+    if (left == right) {
+        return A;
+    }
+    if (left > right) {
+        // if left side taller , go leftwards
+        return solve(A.left);
+    }
+    return solve(A.right);
+}
+
+function depth(A) {
+    //counts no of level with zero as the start i.e root
+    if (A == null) {
+        return -1;
+    }
+
+    return 1 + Math.max(depth(A.left), depth(A.right));
+}
+module.exports = {
+    //param A : root node of tree
+    //return the root node in the tree
+    solve: function (A) {
+        let ans = solve(A);
+        return ans;
+        //https://www.youtube.com/watch?v=U0kqvJTD_cc
+    },
+};

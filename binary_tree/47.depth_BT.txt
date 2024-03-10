@@ -1,0 +1,50 @@
+// Definition of a TreeNode for a binary tree
+function TreeNode(value, left = null, right = null) {
+    this.value = value;
+    this.left = left;
+    this.right = right;
+}
+
+// Function to calculate the depth of a binary tree
+function depth(A) {// counts levels
+    // Base case: If the node is null, return -1
+    if (A == null) {
+        return -1;
+    }
+    let left = depth(A.left);
+    let right = depth(A.right);
+    // Recursive case: Calculate the depth as 1 plus the maximum depth of the left and right subtrees
+    return 1 + Math.max(left, right);
+}
+
+// Function to calculate the depth of a binary tree
+function height(A) {//counts nodes
+    // Base case: If the node is null, return -1
+    if (A == null) {
+        return 0;
+    }
+    let left = height(A.left);
+    let right = height(A.right);
+    // Recursive case: Calculate the depth as 1 plus the maximum depth of the left and right subtrees
+    return 1 + Math.max(left, right);
+}
+
+// Example binary tree creation
+const root = new TreeNode(1);
+// root.left = new TreeNode(2);
+// root.left.left = new TreeNode(2);
+// root.left.right = new TreeNode(2);
+
+// root.right = new TreeNode(3);
+// root.right.left = new TreeNode(3);
+// root.right.right = new TreeNode(3);
+// root.right.right.left = new TreeNode(3);
+// root.right.right.right = new TreeNode(3);
+
+// Calculate the depth of the example tree
+const treeDepth = depth(root);
+const treeHeight = height(root);
+
+// Display the depth of the binary tree
+console.log("Depth of the binary tree:", treeDepth);
+console.log("Height of the binary tree:", treeHeight);

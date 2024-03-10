@@ -1,0 +1,58 @@
+
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function findHeightLeft(cur) {
+    let hght = 0;
+    while (cur !== null) {
+        hght++;
+        cur = cur.left;
+    }
+    return hght;
+}
+
+function findHeightRight(cur) {
+    let hght = 0;
+    while (cur !== null) {
+        hght++;
+        cur = cur.right;
+    }
+    return hght;
+}
+
+function countNodes(root) {
+    if (root === null) return 0;
+
+    const lh = findHeightLeft(root);
+    const rh = findHeightRight(root);
+
+    if (lh === rh) return Math.pow(2, lh) - 1;
+
+    const leftNodes = countNodes(root.left);
+    const rightNodes = countNodes(root.right);
+
+    return 1 + leftNodes + rightNodes;
+}
+
+// Example usage
+const root = new Node(1);
+root.left = new Node(2);
+root.right = new Node(3);
+root.left.left = new Node(4);
+root.left.right = new Node(5);
+root.right.left = new Node(6);
+root.right.right = new Node(7);
+root.left.left.left = new Node(8);
+root.left.left.right = new Node(9);
+root.left.right.left = new Node(10);
+root.left.right.right = new Node(11);
+
+console.log(
+    "The total number of nodes in the given complete binary tree are: " +
+    countNodes(root)
+);

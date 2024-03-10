@@ -1,0 +1,90 @@
+//Given a binary tree, Find the Lowest Common Ancestor for two given Nodes (x,y).
+// brute force- take the root to node path for both the nodes and store them in 2 seperate arrays , and see in the array the last common number, that is the answer.
+//236. Lowest Common Ancestor of a Binary Tree(leetcode)- here p ,q are nodes(address) but in scaler question p,q are values(see below for scaler code)
+
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+function lowestCommonAncestor(root, p, q) {
+    // base case
+    if (root === null || root === p || root === q) {
+        return root;
+    }
+
+    let left = lowestCommonAncestor(root.left, p, q);
+    let right = lowestCommonAncestor(root.right, p, q);
+
+    // result
+    if (left === null) {
+        return right;
+    } else if (right === null) {
+        return left;
+    } else {
+        // both left and right are not null, we found our result
+        return root;
+    }
+}
+
+// Example usage:
+// Create a sample tree
+const root = new TreeNode(3);
+root.left = new TreeNode(5);
+root.right = new TreeNode(1);
+root.left.left = new TreeNode(6);
+root.left.right = new TreeNode(2);
+root.right.left = new TreeNode(0);
+root.right.right = new TreeNode(8);
+root.left.right.left = new TreeNode(7);
+root.left.right.right = new TreeNode(4);
+
+//const solution = new Solution();
+const p = root.left.left;
+const q = root.left.right;
+const result = lowestCommonAncestor(root, p, q);
+
+console.log(result.val); // Output should be 3
+
+////////////////////////////////////////////////////
+///////////////// scaler code : ////////////////////
+/////////////////////////////////////////////////////
+module.exports = {
+    //param A : root node of tree
+    //param B : integer
+    //param C : integer
+    //return an integer
+    lca: function (A, B, C) {
+        // first check if  B and C values are in A
+        if (checkbc(A, B) == false || checkbc(A, C) == false) return -1;
+        let ans = lowestCommonAncestor(A, B, C);
+        if (ans == null) return -1;
+        return ans.data;
+        function lowestCommonAncestor(root, p, q) {
+            // base case
+            if (root === null || root.data === p || root.data === q) {
+                return root;
+            }
+
+            let left = lowestCommonAncestor(root.left, p, q);
+            let right = lowestCommonAncestor(root.right, p, q);
+
+            // result
+            if (left === null) {
+                return right;
+            } else if (right === null) {
+                return left;
+            } else {
+                // both left and right are not null, we found our result
+                return root;
+            }
+        }
+        function checkbc(A, B) {
+            if (A === null) return false;
+            if (A.data === B) return true;
+            return checkbc(A.right, B) || checkbc(A.left, B);
+        }
+    },
+};

@@ -1,0 +1,83 @@
+//The children sum property is defined as, For every node of the tree, the value of a node is equal to the sum of values of its children(left child and right child).
+
+//Given a Binary Tree. Check whether all of its nodes have the value equal to the sum of their child nodes.
+//https://www.geeksforgeeks.org/problems/children-sum-parent/1?utm_source=geeksforgeeks&utm_medium=article_practice_tab&utm_campaign=article_practice_tab
+class Node {
+    constructor(data) {
+      this.data = data;
+      this.left = null;
+      this.right = null;
+    }
+  }
+  
+  function reorder(root) {
+    if (root == null) return;
+    let child = 0;
+    if (root.left !== null) {
+      child += root.left.data;
+    }
+    if (root.right !== null) {
+      child += root.right.data;
+    }
+  if(child >= root.data){root.data=child}
+  else{// child < root.data
+      if (root.left !== null) root.left.data = root.data;
+      else if (root.right !== null) root.right.data = root.data;
+    }
+  
+    reorder(root.left);
+    reorder(root.right);
+  // after reaching the top level
+    let tot = 0;
+    if (root.left !== null) tot += root.left.data;
+    if (root.right !== null) tot += root.right.data;
+    // if it is not  a leaf node
+    if (root.left !== null || root.right !== null) root.data = tot;
+  }
+  
+  function changeTree(root) {
+    reorder(root);
+  }
+  
+  function printTree(root, level = 0) {
+    if (root !== null) {
+      printTree(root.right, level + 1);
+      console.log(" ".repeat(level * 4) + root.data);
+      printTree(root.left, level + 1);
+    }
+  }
+  
+  // Main function
+  let root = new Node(40);
+  root.left = new Node(10);
+  root.left.left = new Node(2);
+  root.left.right = new Node(5);
+  root.right = new Node(20);
+  root.right.left = new Node(30);
+  root.right.right = new Node(40);
+  
+  console.log("Original Tree:");
+  printTree(root);
+  
+  changeTree(root);
+  
+  console.log("\nModified Tree:");
+  printTree(root);
+
+    // Main function
+    let root1 = new Node(2);
+    root1.left = new Node(35);
+    root1.left.left = new Node(2);
+    root1.left.right = new Node(3);
+    root1.right = new Node(10);
+    root1.right.left = new Node(5);
+    root1.right.right = new Node(2);
+    
+    console.log("Original Tree:");
+    printTree(root1);
+    
+    changeTree(root1);
+    
+    console.log("\nModified Tree:");
+    printTree(root1);
+  

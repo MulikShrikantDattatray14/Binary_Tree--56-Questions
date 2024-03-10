@@ -1,0 +1,47 @@
+// Definition for a binary tree node
+function TreeNode(data) {
+    this.data = data;
+    this.left = null;
+    this.right = null;
+}
+
+// Helper function to create a sample binary tree
+function createSampleTree() {
+    const root = new TreeNode(3);
+    root.left = new TreeNode(9);
+    root.right = new TreeNode(20);
+    root.right.left = new TreeNode(15);
+    root.right.right = new TreeNode(7);
+    return root;
+
+    //   const root = new TreeNode(1);
+    //   root.left = new TreeNode(6);
+    //   root.right = new TreeNode(2);
+    //   root.right.left = new TreeNode(3);
+    //   return root;
+}
+
+// Provided function
+function helper(A) {
+    if (A === null) {
+        return 0;
+    }
+    let ans = 0;
+    if (A.left !== null && A.left.left === null && A.left.right === null) {
+        ans += A.left.data;
+    } else {
+        // keep moving towards left
+        ans += helper(A.left);
+    }
+    // // keep moving towards left
+    ans += helper(A.right);
+    return ans;
+}
+
+function solve(A) {
+    return helper(A);
+}
+
+// Example usage of the provided code
+const binaryTree = createSampleTree();
+console.log("Sum of left leaves:", solve(binaryTree)); // Output: 10 (5 + 3 + 7)

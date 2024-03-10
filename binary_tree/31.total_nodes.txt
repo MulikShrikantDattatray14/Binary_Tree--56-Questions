@@ -1,0 +1,69 @@
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+// Example usage:
+const root3 = new TreeNode(1);
+root3.left = new TreeNode(2);
+root3.right = new TreeNode(3);
+root3.right.right = new TreeNode(6);
+root3.right.right.right = new TreeNode(9);
+root3.right.right.right.right = new TreeNode(12);
+root3.left.left = new TreeNode(4);
+root3.left.right = new TreeNode(5);
+root3.left.right.left = new TreeNode(7);
+root3.left.right.left.left = new TreeNode(10);
+root3.left.right.left.right = new TreeNode(11);
+root3.left.right.left.right.right = new TreeNode(13);
+root3.left.right.right = new TreeNode(8);
+// // approach -1 :
+
+function size(A) {
+    if (A == null) return 0;
+    let l = size(A.left);
+    let r = size(A.right);
+    return l + r + 1;
+}
+
+let ans = size(root3);
+console.log(ans);
+
+// // approach -2 :
+
+let count = 0;
+function inorder(root) {
+    if (root === null) return;
+    count++;
+    inorder(root.left)
+    inorder(root.right)
+
+}
+
+inorder(root3)
+console.log(count)
+
+// /////////////////////////////////////////////////////////
+// //scaler submitted code:
+
+let count;
+function height(A) {
+    if (A === null) return;
+    count++;
+    height(A.left)
+    height(A.right)
+}
+module.exports = {
+    //param A : root node of tree
+    //return an integer
+    solve: function (A) {
+        count = 0;
+        height(A);
+        return count;
+
+    }
+};
+// /////////////////////////////////////////////////////////////////////////////
+

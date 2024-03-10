@@ -1,0 +1,14 @@
+//Given a binary tree A, invert the binary tree and return it.
+//Inverting refers to making the left child the right child and vice versa.
+
+
+function swap(curr) {
+    if (curr == null) return;
+    swap(curr.left);
+    swap(curr.right);
+    let temp;
+    temp = curr.left;
+    curr.left = curr.right;
+    curr.right = temp;
+}
+swap(curr);

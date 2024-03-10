@@ -1,0 +1,34 @@
+// Given a Binary Tree. Check whether all of its nodes have the value equal to the sum of their child nodes.
+// Example Binary Tree:
+//         10
+//        /  \
+//       5    5
+//      / \
+//     2   3
+//https://www.geeksforgeeks.org/problems/children-sum-parent/1?utm_source=geeksforgeeks&utm_medium=article_practice_tab&utm_campaign=article_practice_tab
+
+
+==================================================================================================================================================================
+
+
+
+function ifParentContainSumofChildren(node) {
+    if (node == null || (node.left == null && node.right == null)) {
+        return true;
+    }
+
+    let a = node.left != null ? node.left.data : 0;
+    let b = node.right != null ? node.right.data : 0;
+
+    return (
+        a + b === node.data &&
+        ifParentContainSumofChildren(node.left) &&
+        ifParentContainSumofChildren(node.right)
+    );
+}
+
+function solve(node) {
+    if (ifParentContainSumofChildren(node)) return 1;
+    else return 0;
+}
+return solve(node);

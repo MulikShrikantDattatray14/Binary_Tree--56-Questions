@@ -1,0 +1,86 @@
+//using 2 stacks : 
+//======================================================================================
+class TreeNode {
+    constructor(data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+function postOrderTraversal(curr) {
+    let postOrder = [];
+    if (curr === null) return postOrder;
+
+    let s1 = []; //stores left and right of the element popped from the stack
+    let s2 = []; //stores popped element
+    s1.push(curr);
+
+    while (s1.length > 0) {
+        curr = s1.pop(); //remove last element
+        s2.push(curr);
+
+        if (curr.left !== null) s1.push(curr.left);
+        if (curr.right !== null) s1.push(curr.right);
+    }
+    // print the s2 in reverse order
+    while (s2.length > 0) {
+        postOrder.push(s2[s2.length - 1].data);
+        s2.pop();
+    }
+
+    return postOrder;
+}
+
+// Example usage:
+
+// Creating a sample binary tree
+const root = new TreeNode(1);
+root.left = new TreeNode(2);
+root.right = new TreeNode(3);
+root.left.left = new TreeNode(4);
+root.left.right = new TreeNode(5);
+root.right.left = new TreeNode(6);
+root.right.right = new TreeNode(7);
+
+// Calling the levelOrderTraversal function
+const traversalResult = postOrderTraversal(root);
+
+// Displaying the result
+console.log(traversalResult);
+
+//======================================================================================================================================================================================
+//USING ONE STACK : 
+//====================
+
+// SEE THIS PROPERLY LATER 
+function postOrderTraversal(root) {
+    const postOrder = [];
+
+    if (root === null) {
+        return postOrder;
+    }
+
+    const stack = [];
+    let current = root;
+
+    while (current !== null || stack.length > 0) {
+        if (current !== null) {
+            stack.push(current);
+            current = current.left;
+        } else {
+            let temp = stack[stack.length - 1].right;
+            if (temp === null) {
+                temp = stack.pop();
+                postOrder.push(temp.data);
+                while (stack.length > 0 && temp === stack[stack.length - 1].right) {
+                    temp = stack.pop();
+                    postOrder.push(temp.data);
+                }
+            } else {
+                current = temp;
+            }
+        }
+    }
+
+    return postOrder;
+}

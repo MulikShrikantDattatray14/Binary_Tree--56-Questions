@@ -1,0 +1,139 @@
+
+// // cannot be solved using recursion.
+// //Intuition:  We can mark straight lines like in the image below and mark them with +ve and -ve indexes. The first node of every line will be my top view.
+//failing test case-  //1 2 3 N 4 5 N 6 9 7 8 13 N N 11 14 N N 10
+
+//approach-1 :(best aproach)
+class TreeNode {
+    constructor(data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class Pair {
+    constructor(node, col) {
+        this.node = node;
+        this.col = col; // coordinates
+    }
+}
+//Function to return a list of nodes visible from the top view
+//from left to right in Binary Tree.
+function topView(root) {
+    const ans = [];
+    if (!root) return ans;
+
+    const map = new Map();
+    const q = [];
+
+    q.push(new Pair(root, 0));
+
+    while (q.length !== 0) {
+        const it = q.shift();
+        const col = it.col;//coordinate
+        const temp = it.node;
+        // set for the first time only
+        if (map.has(col) == false) {
+            map.set(col, temp.data);
+        }
+
+        if (temp.left != null) {
+            q.push(new Pair(temp.left, col - 1));
+        }
+
+        if (temp.right != null) {
+            q.push(new Pair(temp.right, col + 1));
+        }
+    }
+    //sort the column
+    for (const [key, value] of Array.from(map).sort((a, b) => a[0] - b[0])) {
+        ans.push(value);
+    }
+
+    return ans;
+    //your code here
+}
+let root2 = new TreeNode(1);
+root2.left = new TreeNode(2);
+root2.right = new TreeNode(3);
+root2.left.left = new TreeNode(4);
+root2.left.right = new TreeNode(5);
+root2.right.left = new TreeNode(6);
+root2.right.right = new TreeNode(7);
+
+const result2 = topView(root2);
+
+console.log(result2);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Approach-2:
+
+class TreeNode {
+    constructor(data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class Tuple {
+    constructor(node, row, col) {
+        this.node = node;
+        this.row = row;
+        this.col = col;
+    }
+}
+
+function findVertical(root) {
+    const map = new Map();
+    const queue = [];
+    queue.push(new Tuple(root, 0, 0));
+
+    while (queue.length > 0) {
+        const tuple = queue.shift();
+        const node = tuple.node;
+        const x = tuple.row;
+        const y = tuple.col;
+
+        if (map.has(y) == false) {
+            map.set(y, []);
+        }
+        map.get(y).push({ data: node.data, row: x });
+
+        if (node.left !== null) {
+            queue.push(new Tuple(node.left, x + 1, y - 1));
+        }
+        if (node.right !== null) {
+            queue.push(new Tuple(node.right, x + 1, y + 1));
+        }
+    }
+    const mapEntries = Array.from(map.entries());
+    // sort the columns- in the order -2,-1,0,1,2
+    const sortedEntries = mapEntries.sort((a, b) => a[0] - b[0]);
+    const sortedMap = new Map(sortedEntries);
+    // sort rows and then data if required
+    const list = [];
+    for (const col of sortedMap.values()) {
+        col.sort((a, b) => a.row - b.row || a.data - b.data);
+        list.push(col.map((item) => item.data));
+    }
+    return list;
+}
+
+const root3 = new TreeNode(1);
+root3.left = new TreeNode(2);
+root3.right = new TreeNode(3);
+root3.left.left = new TreeNode(4);
+root3.left.right = new TreeNode(6);
+root3.right.left = new TreeNode(5);
+root3.right.right = new TreeNode(7);
+
+const result3 = findVertical(root3);
+console.log(result3)
+console.log("Example 3 - The Vertical Traversal is : ");
+let topview = [];
+for (const sublist of result3) {
+    topview.push(sublist[0]);
+}
+console.log(topview);

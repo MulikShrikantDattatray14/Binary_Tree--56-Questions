@@ -1,0 +1,21 @@
+var inorderTraversal = function(root) {
+    const inOrder = [];
+  const stack = [];
+
+  let curr = root;
+//LDR
+  while (true) {
+    //keep moving left
+      if (curr !== null) {
+          stack.push(curr);
+          curr = curr.left;
+      } else {//curr==null--> reached leaf node
+          if (stack.length === 0) break;
+          curr = stack.pop();
+          inOrder.push(curr.val);
+          curr = curr.right;
+      }
+  }
+
+  return inOrder;
+};

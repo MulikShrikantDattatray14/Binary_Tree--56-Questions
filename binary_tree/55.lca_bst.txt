@@ -1,0 +1,49 @@
+// Definition for a  binary tree node
+//    function TreeNode(data){
+//      this.data = data
+//      this.left = null
+//      this.right = null
+//    }
+
+module.exports = {
+    //param A : root node of tree
+    //param B : integer
+    //param C : integer
+    //return an integer
+    solve: function (A, B, C) {
+        return lowestCommonAncestor(A, B, C)
+        function lowestCommonAncestor(root, p, q) {
+            // Check if the root is null
+            if (root === null) {
+                // If null, return null as there's no LCA
+                return null;
+            }
+
+            // Store the value of the current root node
+            const curr = root.data;
+
+            // If both p and q values are greater
+            // than the current root's value
+            if (curr < p && curr < q) {
+                // Recursively search in the
+                // right subtree for the LCA
+                return lowestCommonAncestor(root.right, p, q);
+            }
+
+            // If both p and q values are smaller
+            // than the current root's value
+            if (curr > p && curr > q) {
+                // Recursively search in the
+                // left subtree for the LCA
+                return lowestCommonAncestor(root.left, p, q);
+            }
+
+            // If the values are on either side of the current root's value,
+            // or one of the values matches the current root's value,
+            // return the current root as the LCA
+            return root.data;
+        }
+
+
+    }
+};

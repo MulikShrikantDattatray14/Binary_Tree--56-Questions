@@ -1,0 +1,58 @@
+// Definition for a binary tree node
+class TreeNode {
+    constructor(data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+function levelOrderTraversal(root) {
+    if (!root) {
+        return [];
+    }
+    let level = 0; // 0 -based level
+
+    const result = [];
+    const queue = [root]; //FIFO
+
+    while (queue.length > 0) {
+        const levelSize = queue.length;
+        const currentLevel = [];
+
+        for (let i = 0; i < levelSize; i++) {
+            //remove front
+            const currentNode = queue.shift();
+            currentLevel.push(currentNode.data);
+
+            if (currentNode.left != null) {
+                queue.push(currentNode.left);
+            }
+
+            if (currentNode.right != null) {
+                queue.push(currentNode.right);
+            }
+        }
+        if (level % 2 == 1) currentLevel.reverse();
+        result.push(currentLevel);
+        level++;
+    }
+
+    return result;
+}
+
+// Example usage:
+
+// Creating a sample binary tree
+const root = new TreeNode(1);
+root.left = new TreeNode(2);
+root.right = new TreeNode(3);
+root.left.left = new TreeNode(4);
+root.left.right = new TreeNode(5);
+root.right.left = new TreeNode(6);
+root.right.right = new TreeNode(7);
+
+// Calling the levelOrderTraversal function
+const traversalResult = levelOrderTraversal(root);
+
+// Displaying the result
+console.log(traversalResult);

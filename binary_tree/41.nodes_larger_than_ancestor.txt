@@ -1,0 +1,50 @@
+// Definition for a  binary tree node
+//    function TreeNode(data){
+//      this.data = data
+//      this.left = null
+//      this.right = null
+//    }
+// Given the root of a tree A with each node having a certain value, find the count of nodes with more value than all its ancestors.
+
+// Ancestor means that every node that occurs before the current node in the path from root to the node.
+// Definition for a binary tree node
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function TreeNode(data) {
+    this.data = data;
+    this.left = null;
+    this.right = null;
+}
+
+// Function to find the count of nodes with more value than all its ancestors
+function solve(A) {
+    let max = Number.MIN_SAFE_INTEGER;
+    return count(A, max);
+}
+
+function count(A, max) {
+    if (A == null) return 0;
+    let ans = 0;
+    if (A.data > max) {
+        ans += 1;
+        // update the max value
+        max = A.data;
+    }
+    ans += count(A.left, max);
+    ans += count(A.right, max);
+    return ans;
+}
+// Example usage:
+// Constructing a sample tree
+const root = new TreeNode(10);
+root.left = new TreeNode(5);
+root.right = new TreeNode(15);
+root.left.left = new TreeNode(2);
+root.left.right = new TreeNode(8);
+root.right.right = new TreeNode(20);
+
+// Calling the solve function on the root of the tree
+const result = solve(root);
+
+// Output the result
+console.log(result); // Output should be 3 (as there are three nodes with more value than all their ancestors)
